@@ -9,4 +9,4 @@ jobs:
         uses: damian-molinski/dm-ci/actions/greet@master
 
       - name: Goodbye World
-        uses: damian-molinski/dm-ci/actions/goodbay@master
+        uses: damian-molinski/dm-ci/actions/goodbye@master
