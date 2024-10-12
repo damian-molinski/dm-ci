@@ -3,7 +3,7 @@ description: Creates keystore.jks and keystore.properties
 inputs:
   # Use GitHub Secrets for keystore
   keystore-base64:
-    description: 'Base64 version of keystore to be used'
+    description: 'Base64 version of keystore'
     required: true
 
   # Use GitHub Secrets for passwords and alias
