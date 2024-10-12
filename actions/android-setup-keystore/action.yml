@@ -32,8 +32,8 @@ inputs:
     default: 'android'
 
 env:
-  keystore-path: ${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-name }}
-  keystore-properties-path: ${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-properties-name }}
+  keystore-path: "${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-name }}"
+  keystore-properties-path: "${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-properties-name }}"
 
 runs:
   using: composite
