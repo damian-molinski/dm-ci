@@ -36,5 +36,19 @@ jobs:
 | keystore-properties-name  | Name of keystore properties files     | No       | `"keystore.properties"`     |
 | directory                 | Relevent path where to create keystore| No       | `"android"`     |
 
+### Tips
+
+Create base64 version of keystore file with command: 
+```bash
+base64 -i upload-keystore.jks
+```
+
+or copy directly into clipboard (`pbcopy` is osx only)
+```bash
+base64 -i upload-keystore.jks | pbcopy
+```
+
+Read more about android [signing](https://developer.android.com/build/build-variants#signing).
+
 ## Security Considerations
 Do not store sensitive information like passwords and keystore data directly in the workflow file. Use GitHub Secrets to manage these values securely.
