@@ -1,9 +1,0 @@
-name: Goodbye
-description: Prints to console
-
-runs:
-  using: composite
-  steps:
-    - shell: bash
-      run: echo "Goodbye World!"
-      

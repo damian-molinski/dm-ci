@@ -1,8 +1,0 @@
-name: Greetings
-description: Prints to console
-
-runs:
-  using: composite
-  steps:
-    - shell: bash
-      run: echo "Hello World!"

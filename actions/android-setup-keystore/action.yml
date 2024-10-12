@@ -1,0 +1,60 @@
+name: Android Setup Keystore
+description: Creates keystore.jks and keystore.properties
+inputs:
+  # Use GitHub Secrets for keystore
+  keystore-base64:
+    description: 'Base64 version of keystore to be used'
+    required: true
+
+  # Use GitHub Secrets for passwords and alias
+  store-password:
+    description: 'Store password for keystore'
+    required: true
+  key-password:
+    description: 'Key password for keystore'
+    required: true
+  key-alias:
+    description: 'Key alias for keystore'
+    required: true
+
+  # Optional
+  keystore-name:
+    description: 'Name of keystore files'
+    required: false
+    default: 'upload-keystore.jks'
+  keystore-properties-name:
+    description: 'Name of keystore properties files'
+    required: false
+    default: 'keystore.properties'
+  directory:
+    description: 'Relevent path where to create keystore and its properties'
+    required: false
+    default: 'android'
+
+env:
+  keystore-path: ${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-name }}
+  keystore-properties-path: ${{ github.workspace }}/${{ inputs.directory }}/${{ inputs.keystore-properties-name }}
+
+runs:
+  using: composite
+  steps:
+    - name: Debug
+      shell: bash
+      run |
+        echo 'keystore-path: $keystore-path'
+        echo 'keystore-properties-path: $keystore-properties-path'
+
+    - name: Create keystore
+      shell: bash
+      run: |
+        touch "$keystore-path"
+        echo ${{ inputs.keystore-base64 }} | base64 -d > "$keystore-path" || exit 1  # Exit on failure
+
+    - name: Create keystore properties
+      shell: bash
+      run: |
+        touch $keystore-properties-path
+        echo "storePassword=${{ inputs.store-password }}" >> $keystore-properties-path
+        echo "keyPassword=${{ inputs.key-password }}" >> $keystore-properties-path
+        echo "keyAlias=${{ inputs.key-alias }}" >> $keystore-properties-path
+        echo "storeFile=$keystore-path" >> $keystore-properties-path
