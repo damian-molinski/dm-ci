@@ -31,30 +31,32 @@ inputs:
     required: false
     default: 'android'
 
-env:
-  keystore-path: ${{ inputs.directory }}/${{ inputs.keystore-name }}
-  keystore-properties-path: ${{ inputs.directory }}/${{ inputs.keystore-properties-name }}
-
 runs:
   using: composite
   steps:
+    - name: Set keystore and keystore-properties path variables
+      shell: bash
+      run: |
+        echo "KEYSTORE_PATH=${{ inputs.directory }}/${{ inputs.keystore-name }}" >> $GITHUB_ENV
+        echo "KEYSTORE_PROPERTIES_PATH=${{ inputs.directory }}/${{ inputs.keystore-properties-name }}" >> $GITHUB_ENV
+
     - name: Debug
       shell: bash
       run: |
-        echo 'keystore-path: $keystore-path'
-        echo 'keystore-properties-path: $keystore-properties-path'
+        echo 'KEYSTORE_PATH: $KEYSTORE_PATH'
+        echo 'KEYSTORE_PROPERTIES_PATH: $KEYSTORE_PROPERTIES_PATH'
 
     - name: Create keystore
       shell: bash
       run: |
-        touch "$keystore-path"
-        echo ${{ inputs.keystore-base64 }} | base64 -d > "$keystore-path" || exit 1  # Exit on failure
+        touch "$KEYSTORE_PATH"
+        echo ${{ inputs.keystore-base64 }} | base64 -d > "$KEYSTORE_PATH" || exit 1  # Exit on failure
 
     - name: Create keystore properties
       shell: bash
       run: |
-        touch $keystore-properties-path
-        echo "storePassword=${{ inputs.store-password }}" >> $keystore-properties-path
-        echo "keyPassword=${{ inputs.key-password }}" >> $keystore-properties-path
-        echo "keyAlias=${{ inputs.key-alias }}" >> $keystore-properties-path
-        echo "storeFile=$keystore-path" >> $keystore-properties-path
+        touch $KEYSTORE_PROPERTIES_PATH
+        echo "storePassword=${{ inputs.store-password }}" >> $KEYSTORE_PROPERTIES_PATH
+        echo "keyPassword=${{ inputs.key-password }}" >> $KEYSTORE_PROPERTIES_PATH
+        echo "keyAlias=${{ inputs.key-alias }}" >> $KEYSTORE_PROPERTIES_PATH
+        echo "storeFile=$keystore-path" >> $KEYSTORE_PROPERTIES_PATH
