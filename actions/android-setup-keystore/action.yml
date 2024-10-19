@@ -40,11 +40,9 @@ runs:
         echo "KEYSTORE_PATH=${{ inputs.directory }}/${{ inputs.keystore-name }}" >> $GITHUB_ENV
         echo "KEYSTORE_PROPERTIES_PATH=${{ inputs.directory }}/${{ inputs.keystore-properties-name }}" >> $GITHUB_ENV
 
-    - name: Debug
+    - name: Ensure dir exists
       shell: bash
-      run: |
-        echo 'KEYSTORE_PATH: $KEYSTORE_PATH'
-        echo 'KEYSTORE_PROPERTIES_PATH: $KEYSTORE_PROPERTIES_PATH'
+      run: mkdir -p ${{ inputs.directory }}
 
     - name: Create keystore
       shell: bash
