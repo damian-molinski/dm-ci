@@ -48,7 +48,7 @@ runs:
       shell: bash
       run: |
         touch "$KEYSTORE_PATH"
-        echo ${{ inputs.keystore-base64 }} | base64 -d > "$KEYSTORE_PATH" || exit 1  # Exit on failure
+        echo "${{ inputs.keystore-base64 }} | base64 -d" > "$KEYSTORE_PATH" || exit 1  # Exit on failure
 
     - name: Create keystore properties
       shell: bash
