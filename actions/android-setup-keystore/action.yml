@@ -3,33 +3,33 @@ description: Creates keystore.jks and keystore.properties
 inputs:
   # Use GitHub Secrets for keystore
   keystore-base64:
-    description: 'Base64 version of keystore'
+    description: "Base64 version of keystore"
     required: true
 
   # Use GitHub Secrets for passwords and alias
   store-password:
-    description: 'Store password for keystore'
+    description: "Store password for keystore"
     required: true
   key-password:
-    description: 'Key password for keystore'
+    description: "Key password for keystore"
     required: true
   key-alias:
-    description: 'Key alias for keystore'
+    description: "Key alias for keystore"
     required: true
 
   # Optional
   keystore-name:
-    description: 'Name of keystore files'
+    description: "Name of keystore files"
     required: false
-    default: 'upload-keystore.jks'
+    default: "upload-keystore.jks"
   keystore-properties-name:
-    description: 'Name of keystore properties files'
+    description: "Name of keystore properties files"
     required: false
-    default: 'keystore.properties'
+    default: "keystore.properties"
   directory:
-    description: 'Relevent path where to create keystore and its properties'
+    description: "Relevant path where to create keystore and its properties"
     required: false
-    default: 'android'
+    default: "android/app"
 
 runs:
   using: composite

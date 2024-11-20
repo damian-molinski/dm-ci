@@ -1,0 +1,31 @@
+name: Android Clean Keystore
+description: Removes keystore.jks and keystore.properties
+inputs:
+  # Optional
+  keystore-name:
+    description: "Name of keystore files"
+    required: false
+    default: "upload-keystore.jks"
+  keystore-properties-name:
+    description: "Name of keystore properties files"
+    required: false
+    default: "keystore.properties"
+  directory:
+    description: "Relevant path where to create keystore and its properties"
+    required: false
+    default: "android/app"
+
+runs:
+  using: composite
+  steps:
+    - name: Set keystore and keystore-properties path variables
+      shell: bash
+      run: |
+        echo "KEYSTORE_PATH=${{ inputs.directory }}/${{ inputs.keystore-name }}" >> $GITHUB_ENV
+        echo "KEYSTORE_PROPERTIES_PATH=${{ inputs.directory }}/${{ inputs.keystore-properties-name }}" >> $GITHUB_ENV
+
+    - name: Remove keystore and properties
+      shell: bash
+      run: |
+        rm $KEYSTORE_PATH
+        rm $KEYSTORE_PROPERTIES_PATH
