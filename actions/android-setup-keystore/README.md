@@ -9,10 +9,6 @@ The action takes encoded keystore data (keystore-base64) and passwords for the k
 ## Usage
 
 ```yaml
-name: Run Setup
-on:
-  push:
-
 jobs:
   setup:
     runs-on: ubuntu-latest
