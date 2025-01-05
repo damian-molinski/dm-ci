@@ -1,0 +1,39 @@
+name: Apple Setup Provisioning Profile
+
+description: Decodes and imports given provisioning profile
+
+inputs:
+  # Required
+  provisioning-profile-base64:
+    description: "Base64 version of apple provisioning profile"
+    required: true
+
+  # Optional
+  provisioning-profile-name:
+    description: "Name of decoded provisioning profile file. Extension is always .mobileprovision"
+    required: false
+    default: "provisioning_profile"
+
+runs:
+  using: composite
+  steps:
+    - name: Create variables
+      shell: bash -e
+      run: |
+        PP_PATH=$RUNNER_TEMP/${{ inputs.provisioning-profile-name }}.mobileprovision
+
+    - name: Decode and save certificate
+      shell: bash -e
+      run: |
+        echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+    - name: Apply provisioning profile
+      shell: bash -e
+      run: |
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+    - name: Cleanup
+      shell: bash -e
+      run: |
+        rm -f $PP_PATH

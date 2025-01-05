@@ -22,13 +22,13 @@ jobs:
 
 ## Inputs
 
-| Name                      | Description                                                                                 | Required | Default        |
-| ------------------------- | --------------------------------------------------------------------------------------------| -------- | -------------- |
-| certificate-base64        | Base64 encoded version of your Apple certificate p12 file.                                  | Yes      | `""`           |
-| certificate-password      | Password required to import the decoded certificate.                                        | Yes      | `""`           |
-| certificate-name          | (Optional) Name of the decoded certificate file (default: certificate.p12).                 | No       | `"certificate"`|
-| keychain-db-name          | (Optional) Name of the temporary keychain database file (default: signing.keychain-db).     | No       | `"signing"`    |
-| keychain-password         | (Optional) Password for the temporary keychain. A random password will be used if not set.  | No       | `""`           |
+| Name                      | Description                                                 | Required | Default        |
+| ------------------------- | ------------------------------------------------------------| -------- | -------------- |
+| certificate-base64        | Base64 encoded version of your Apple certificate p12 file.  | Yes      | `""`           |
+| certificate-password      | Password required to import the decoded certificate.        | Yes      | `""`           |
+| certificate-name          | Name of the decoded certificate file                        | No       | `"certificate"`|
+| keychain-db-name          | Name of the temporary keychain database file                | No       | `"signing"`    |
+| keychain-password         | Password for the temporary keychain.                        | No       | `"random"`     |
 
 ### Tips
 

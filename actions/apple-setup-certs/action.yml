@@ -62,4 +62,9 @@ runs:
     - name: List keychain contents (for verification)
       shell: bash -e
       run: |
-        security list-keychain -d user -s $KEYCHAIN_PATH 
+        security list-keychain -d user -s $KEYCHAIN_PATH
+
+    - name: Cleanup
+      shell: bash -e
+      run: |
+        rm -f $CERTIFICATE_PATH
