@@ -1,0 +1,16 @@
+name: Apple Delete Keychain
+
+description: Deletes Apple keychain
+
+inputs:
+  keychain-db-name:
+    description: "Name of keychain db. Extension is always .keychain-db"
+    required: false
+    default: "signing"
+
+runs:
+  using: composite
+  steps:
+    - name: Delete keychain
+      shell: bash -e
+      run: security delete-keychain $RUNNER_TEMP/${{ inputs.keychain-db-name }}.keychain-db

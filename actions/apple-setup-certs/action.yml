@@ -40,7 +40,7 @@ runs:
       run: |
         CERTIFICATE_PATH="$RUNNER_TEMP/${{ inputs.certificate-name }}.p12"
         KEYCHAIN_PATH="$RUNNER_TEMP/${{ inputs.keychain-db-name }}.keychain-db"
-    
+
     - name: Decode and save certificate
       shell: bash
       run: |
