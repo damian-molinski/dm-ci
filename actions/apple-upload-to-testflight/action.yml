@@ -1,0 +1,49 @@
+name: Apple Upload to Testflight
+description: Uploads build to Testflight. This action automates the process of uploading an iOS or macOS build to Apple's Testflight platform. Ensure you have a valid App Store Connect API key and associated credentials configured before using this action.
+
+inputs:
+    # Required
+    deploy_file:
+        description: The path to the build file (IPA) to be uploaded to Testflight.
+        required: true
+    deploy_key_base64:
+        description: A base64-encoded App Store Connect API key.
+        required: true
+    deploy_key_id:
+        description: The App Store Connect API key ID.
+        required: true
+    deploy_issuer_id:
+        description: The App Store Connect issuer ID.
+        required: true
+
+    # Optional
+    platform:
+        description: The platform type for the build (e.g., ios or macos). Defaults to "ios".
+        required: false
+        default: "ios"
+
+runs:
+    using: composite
+    steps:
+        - name: Upload
+          shell: bash
+          run: |
+              if [ ! -d "$HOME/.appstoreconnect/private_keys/" ]; then
+                  mkdir -p $HOME/.appstoreconnect/private_keys/
+              fi
+              
+              echo -n "${{ inputs.deploy_key_base64 }}" | base64 -d > $HOME/.appstoreconnect/private_keys/AuthKey_${{ inputs.deploy_key_id }}.p8
+
+              xcrun altool \
+                  --output-format json \
+                  --validate-app --file ${{ inputs.deploy_file }} \ 
+                  --type ${{ inputs.platform }} \
+                  --apiKey ${{ inputs.deploy_key_id }} \
+                  --apiIssuer ${{ inputs.deploy_issuer_id }}
+
+              xcrun altool \
+                  --output-format json \
+                  --upload-package --file ${{ inputs.deploy_file }} \ 
+                  --type ${{ inputs.platform }} \
+                  --apiKey ${{ inputs.deploy_key_id }} \
+                  --apiIssuer ${{ inputs.deploy_issuer_id }}
