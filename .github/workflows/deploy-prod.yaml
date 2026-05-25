@@ -78,19 +78,18 @@ jobs:
       - name: Deploy to Prod
         run: echo "Deploying to Prod environment..."
 
-      - name: Generate a changelog
-        uses: orhun/git-cliff-action@v4
-        id: git-cliff
+      - name: Build Changelog
+        id: changelog
+        uses: requarks/changelog-action@v1
         with:
-          config: .github/cliff.toml
-          args: --verbose
-        env:
-          OUTPUT: CHANGELOG.md
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          writeToFile: false
 
       - name: Print the changelog
-        run: cat "${{ steps.git-cliff.outputs.changelog }}"
+        run: cat "${{ steps.changelog.outputs.changes }}"
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
-          body_path: ${{ steps.git-cliff.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.changes }}

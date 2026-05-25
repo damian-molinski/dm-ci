@@ -33,3 +33,26 @@ jobs:
           requireScope: true
           scopes: |
             DM-CI-\d+
+
+  changelog-testing:
+    name: Changelog Testing
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build Changelog
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          fromTag: 0.3.8
+          toTag: 0.3.9
+          writeToFile: false
+
+      - name: Print the changelog
+        run: cat "${{ steps.changelog.outputs.changes }}"
