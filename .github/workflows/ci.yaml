@@ -51,7 +51,7 @@ jobs:
         with:
           token: ${{ github.token }}
           fromTag: "0.3.9"
-          toTag: "0.3.8"
+          toTag: "0.3.0"
           writeToFile: false
 
       - name: Print the changelog
