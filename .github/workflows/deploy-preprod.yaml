@@ -58,7 +58,7 @@ jobs:
           BUILD_NUMBER='${{ github.run_number }}'
           
           # PreProd: Calculate RC number based on unique branch commits
-          VERSION_BASE=$(echo "${{ inputs.git_ref_name }}" | sed 's|release/||')
+          VERSION_BASE=$(echo "${{ github.ref_name }}" | sed 's|release/||')
           RC_COUNT=$(git rev-list --count origin/develop..HEAD)
           VERSION_NAME_SUFFIX="rc.$((RC_COUNT + 1))"
           VERSION_NAME="${VERSION_BASE}"
