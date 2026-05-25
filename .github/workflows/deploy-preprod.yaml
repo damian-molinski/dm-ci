@@ -1,0 +1,92 @@
+name: Deploy PreProd
+
+on:
+  push:
+    branches:
+      - release/*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Calculate Version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Calculate semantic version
+        id: semantic-version
+        uses: PaulHatch/semantic-version@v6.0.2
+        with:
+          tag_prefix: ""
+          major_pattern: "BREAKING CHANGE|!:"
+          minor_pattern: "^feat"
+          version_format: "${major}.${minor}.${patch}-rc${increment}"
+          version_from_branch: "/release/([0-9]+.[0-9]+$|[0-9]+)$/"
+
+      - name: Debug version
+        id: debug
+        shell: bash
+        env:
+          BUILD_NAME: ${{ steps.semantic-version.outputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "Major: ${{ steps.semantic-version.outputs.major }}"
+          echo "Minor: ${{ steps.semantic-version.outputs.minor }}"
+          echo "Patch: ${{ steps.semantic-version.outputs.patch }}"
+          echo "Increment: ${{ steps.semantic-version.outputs.increment }}"
+          echo "Version type: ${{ steps.semantic-version.outputs.version_type }}"
+          echo "Version: ${{ steps.semantic-version.outputs.version }}"
+          echo "Version Tag: ${{ steps.semantic-version.outputs.version_tag }}"
+          echo "Changed: ${{ steps.semantic-version.outputs.changed }}"
+          echo "Is Tagged: ${{ steps.semantic-version.outputs.is_tagged }}"
+          echo "GitHub Run Number: ${{ github.run_number }}"
+
+      - name: Manual Calculate semantic version
+        id: manual-semantic-version
+        run: |
+          git fetch --tags --prune --quiet
+          BUILD_NUMBER='${{ github.run_number }}'
+          
+          # PreProd: Calculate RC number based on unique branch commits
+          VERSION_BASE=$(echo "${{ inputs.git_ref_name }}" | sed 's|release/||')
+          RC_COUNT=$(git rev-list --count origin/develop..HEAD)
+          VERSION_NAME_SUFFIX="rc.$((RC_COUNT + 1))"
+          VERSION_NAME="${VERSION_BASE}"
+
+          echo "computed_name=$VERSION_NAME"
+          echo "computed_name_suffix=$VERSION_NAME_SUFFIX"
+          echo "computed_number=$BUILD_NUMBER"
+    
+      # - name: Tag version
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.semantic-version.outputs.version_tag }}
+      #     release_name: Release ${{ steps.semantic-version.outputs.version }}
+      #     body: |
+      #       Version: ${{ steps.semantic-version.outputs.version }}
+      #       Version Type: ${{ steps.semantic-version.outputs.version_type }}
+      #       Increment: ${{ steps.semantic-version.outputs.increment }}
+      #       GitHub Run Number: ${{ github.run_number }}
+  
+  deploy:
+    name: Deploy to PreProd
+    needs: version
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: PreProd
+    steps:
+      - name: Deploy to PreProd
+        run: echo "Deploying to PreProd environment..."

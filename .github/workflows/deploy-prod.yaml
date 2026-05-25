@@ -1,0 +1,74 @@
+name: Deploy Prod
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Calculate Version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Calculate semantic version
+        id: semantic-version
+        uses: PaulHatch/semantic-version@v6.0.2
+        with:
+          tag_prefix: ""
+          major_pattern: "BREAKING CHANGE|!:"
+          minor_pattern: "^feat"
+          version_format: "${major}.${minor}.${patch}"
+
+      - name: Debug version
+        id: debug
+        shell: bash
+        env:
+          BUILD_NAME: ${{ steps.semantic-version.outputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "Major: ${{ steps.semantic-version.outputs.major }}"
+          echo "Minor: ${{ steps.semantic-version.outputs.minor }}"
+          echo "Patch: ${{ steps.semantic-version.outputs.patch }}"
+          echo "Increment: ${{ steps.semantic-version.outputs.increment }}"
+          echo "Version type: ${{ steps.semantic-version.outputs.version_type }}"
+          echo "Version: ${{ steps.semantic-version.outputs.version }}"
+          echo "Version Tag: ${{ steps.semantic-version.outputs.version_tag }}"
+          echo "Changed: ${{ steps.semantic-version.outputs.changed }}"
+          echo "Is Tagged: ${{ steps.semantic-version.outputs.is_tagged }}"
+          echo "GitHub Run Number: ${{ github.run_number }}"
+  
+      - name: Manual Calculate semantic version
+        id: manual-semantic-version
+        run: |
+          git fetch --tags --prune --quiet
+          BUILD_NUMBER=$(git rev-list --count HEAD)
+          
+          # PRODUCTION: Use the raw tag directly (e.g., 1.0.0)
+          VERSION_NAME="${{ inputs.git_ref_name }}"
+          
+          echo "computed_name=$VERSION_NAME"
+          echo "computed_number=$BUILD_NUMBER"
+
+  deploy:
+    name: Deploy to Prod
+    needs: version
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: Prod
+    steps:
+      - name: Deploy to Prod
+        run: echo "Deploying to Prod environment..."

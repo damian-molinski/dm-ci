@@ -1,0 +1,79 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Calculate Version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Calculate semantic version
+        id: semantic-version
+        uses: PaulHatch/semantic-version@v6.0.2
+        with:
+          tag_prefix: ""
+          major_pattern: "BREAKING CHANGE|!:"
+          minor_pattern: "^feat"
+          version_format: "${major}.${minor}.${patch}"
+ 
+      - name: Debug version
+        id: debug
+        shell: bash
+        env:
+          BUILD_NAME: ${{ steps.semantic-version.outputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "Major: ${{ steps.semantic-version.outputs.major }}"
+          echo "Minor: ${{ steps.semantic-version.outputs.minor }}"
+          echo "Patch: ${{ steps.semantic-version.outputs.patch }}"
+          echo "Increment: ${{ steps.semantic-version.outputs.increment }}"
+          echo "Version type: ${{ steps.semantic-version.outputs.version_type }}"
+          echo "Version: ${{ steps.semantic-version.outputs.version }}"
+          echo "Version Tag: ${{ steps.semantic-version.outputs.version_tag }}"
+          echo "Changed: ${{ steps.semantic-version.outputs.changed }}"
+          echo "Is Tagged: ${{ steps.semantic-version.outputs.is_tagged }}"
+          echo "GitHub Run Number: ${{ github.run_number }}"
+      
+      - name: Manual Calculate semantic version
+        id: manual-semantic-version
+        run: |
+          git fetch --tags --prune --quiet
+          BUILD_NUMBER='${{ github.run_number }}'
+          
+          # DEVELOPMENT: Tag-Distance Derivation
+          GIT_DESC=$(git describe --tags --long --match "[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || echo "0.0.0-0-g$(git rev-parse --short HEAD)")
+          BASE_VERSION=$(echo "$GIT_DESC" | cut -d'-' -f1)
+          COMMIT_DISTANCE=$(echo "$GIT_DESC" | cut -d'-' -f2)
+          VERSION_NAME_SUFFIX="dev.${COMMIT_DISTANCE}"
+          VERSION_NAME="${BASE_VERSION}"
+          
+          echo "computed_name=$VERSION_NAME"
+          echo "computed_name_suffix=$VERSION_NAME_SUFFIX"
+          echo "computed_number=$BUILD_NUMBER"
+
+  deploy:
+    name: Deploy to Dev
+    needs: version
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: Dev
+    steps:
+      - name: Deploy to Dev
+        run: echo "Deploying to Dev environment..."
