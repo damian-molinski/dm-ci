@@ -29,4 +29,11 @@ class Awesome {
     }
     return 'newPassword123';
   }
+
+  Future<void> update(String newUsername) async {
+    if (_auth == null) {
+      throw Exception('Not authenticated');
+    }
+    _auth = (newUsername, _auth!.$2);
+  }
 }
