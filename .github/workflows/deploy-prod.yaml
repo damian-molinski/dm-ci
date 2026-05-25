@@ -6,7 +6,8 @@ on:
       - '*.*.*'
 
 permissions:
-  contents: write
+  contents: read
+  pull-requests: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -79,17 +80,14 @@ jobs:
         run: echo "Deploying to Prod environment..."
 
       - name: Build Changelog
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
-          writeToFile: false
-
-      - name: Print the changelog
-        run: cat "${{ steps.changelog.outputs.changes }}"
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v6
+        env:
+          mode: "COMMIT"
+          configuration: ".github/changelog-configuration.json"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
-          body: ${{ steps.changelog.outputs.changes }}
+          body: ${{steps.github_release.outputs.changelog}}

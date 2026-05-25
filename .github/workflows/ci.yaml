@@ -34,25 +34,32 @@ jobs:
           scopes: |
             DM-CI-\d+
 
-  changelog-testing:
-    name: Changelog Testing
+  test-changelog:
+    name: Test Changelog
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
+    timeout-minutes: 10
+    environment:
+      name: Prod
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Build Changelog
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          fromTag: "0.3.9"
-          toTag: "0.3.0"
-          writeToFile: false
+      - name: Test Changelog
+        run: echo "Testing changelog generation..."
 
-      - name: Print the changelog
-        run: cat "${{ steps.changelog.outputs.changes }}"
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v6
+        env:
+          mode: "COMMIT"
+          configuration: ".github/changelog-configuration.json"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: "0.3.9"
+          previous_tag: "0.3.6"
+
+      - name: Debug Print Changelog
+        run: |
+          echo "Generated Changelog: ${{ steps.github_release.outputs.changelog }}"
+
