@@ -1,0 +1,59 @@
+# git-cliff configuration file
+# https://git-cliff.org/docs/configuration
+
+[remote.github]
+owner = "DamianMolinski"
+repo = "dm-ci"
+
+[changelog]
+header = """## 📦 Release Notes"""
+
+body = """
+{%- if version %} in {{ version | trim_start_matches(pat="v") }}{%- endif -%}
+{% for section in sections %}
+### {{ section.title }}
+{% for commit in section.commits %}
+- {% if commit.scope %}**{{ commit.scope }}**: {% endif %}{{ commit.message | upper_first }} \
+  ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}/commit/{{ commit.id }})) by @{{ commit.author.name }}\
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if version %}
+    {% if previous.version %}
+      **Full Changelog**: [{{ previous.version }}...{{ version }}]({{ self::remote_url() }}/compare/{{ previous.version }}...{{ version }})
+    {% endif %}
+{% else -%}
+  {% raw %}\n{% endraw %}
+{% endif %}
+"""
+
+# Template footer written at the bottom
+footer = """
+***
+*Generated automatically using conventional commits.*
+"""
+
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+
+# Regex for parsing and grouping commits
+commit_parsers = [
+  { message = "^feat!:", group = "⚠️ Breaking Changes" },
+  { message = "^fix!:", group = "⚠️ Breaking Changes" },
+  { message = "^feat", group = "🚀 New Features" },
+  { message = "^fix", group = "🐛 Bug Fixes" },
+  { message = "^perf", group = "⚡ Performance Improvements" },
+  { message = "^refactor", group = "🎨 Code Refactoring" },
+  { message = "^docs", group = "📝 Documentation" },
+  { message = "^test", group = "🧪 Testing Updates" },
+  { message = "^ci", group = "⚙️ CI/CD Infrastructure" },
+  { message = "^chore", group = "🧹 Chore & Maintenance" },
+]
+
+ignore_tags = ""
+topo_order = false
+sort_commits = "oldest"
