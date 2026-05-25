@@ -30,7 +30,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # The scope should be the RD ticket number, e.g. "RD-1234". This ensures that all PRs are linked to Jira.
           requireScope: true
           scopes: |
-            RD-\d+
+            DM-CI-\d+
