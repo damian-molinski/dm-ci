@@ -58,14 +58,30 @@ jobs:
           
           # DEVELOPMENT: Tag-Distance Derivation
           GIT_DESC=$(git describe --tags --long --match "[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || echo "0.0.0-0-g$(git rev-parse --short HEAD)")
+          
           BASE_VERSION=$(echo "$GIT_DESC" | cut -d'-' -f1)
           COMMIT_DISTANCE=$(echo "$GIT_DESC" | cut -d'-' -f2)
+
+          # Isolate major, minor, and patch digits using dot-splitting
+          MAJOR=$(echo "$BASE_VERSION" | cut -d'.' -f1)
+          MINOR=$(echo "$BASE_VERSION" | cut -d'.' -f2)
+          PATCH=$(echo "$BASE_VERSION" | cut -d'.' -f3)
+
+          # Execute pure Bash arithmetic to increment the patch
+          NEXT_PATCH=$((PATCH + COMMIT_DISTANCE))
+
+          if [ "$NEXT_PATCH" -eq 0 ]; then
+              NEXT_PATCH=1
+          fi
+
           VERSION_NAME_SUFFIX="dev.${COMMIT_DISTANCE}"
-          VERSION_NAME="${BASE_VERSION}"
+          VERSION_NAME="$MAJOR.$MINOR.$NEXT_PATCH"
           
-          echo "computed_name=$VERSION_NAME"
-          echo "computed_name_suffix=$VERSION_NAME_SUFFIX"
-          echo "computed_number=$BUILD_NUMBER"
+          echo "Base name: $BASE_VERSION"
+          echo "Commit Distance: $COMMIT_DISTANCE"
+          echo "Name: $VERSION_NAME"
+          echo "Name Suffix: $VERSION_NAME_SUFFIX"
+          echo "Number: $BUILD_NUMBER"
 
   deploy:
     name: Deploy to Dev
