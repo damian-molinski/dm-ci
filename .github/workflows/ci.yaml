@@ -50,8 +50,8 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          fromTag: 0.3.8
-          toTag: 0.3.9
+          fromTag: "0.3.8"
+          toTag: "0.3.9"
           writeToFile: false
 
       - name: Print the changelog
