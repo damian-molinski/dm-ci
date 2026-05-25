@@ -5,7 +5,6 @@ class Awesome {
 
   // Super secure authentication method.
   Future<bool> auth(String username, String password) async {
-    await Future.delayed(Duration(seconds: 1));
     final allowed = username == 'admin' && password == 'admin';
 
     if (allowed) {
@@ -22,5 +21,12 @@ class Awesome {
     final isLoggedOut = _auth != null;
     _auth = null;
     return isLoggedOut;
+  }
+
+  Future<String> resetPassword() async {
+    if (_auth == null) {
+      throw Exception('Not authenticated');
+    }
+    return 'newPassword123';
   }
 }
