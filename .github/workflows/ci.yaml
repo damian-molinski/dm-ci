@@ -54,7 +54,7 @@ jobs:
           configuration: .github/changelog-configuration.json
           mode: "COMMIT"
           # ignorePreReleases: false
-          fromTag: "0.2.2"
+          fromTag: "0.3.0"
           toTag: "0.3.9"
           fetchViaCommits: true
         env:
@@ -63,4 +63,4 @@ jobs:
       - name: Echo Configuration without Checkout Changelog
         env:
           CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
-        run: echo "$CHANGELOG"
+        run: echo "CHANGELOG"

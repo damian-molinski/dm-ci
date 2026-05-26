@@ -21,17 +21,21 @@
         "labels": ["test"]
     },
     {
-        "title": "## Others",
+        "title": "## 📦 Dependencies",
+        "labels": ["dependencies"]
+    },
+    {
+        "title": "## 💬 Other",
         "labels": []
     }
   ],
   "sort": "ASC",
-  "template": "${{CHANGELOG}}",
+  "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
   "pr_template": "- #{{TITLE}}\n   - PR: ##{{NUMBER}}",
   "empty_template": "No significant changes.",
   "label_extractor": [
-    {
-      "pattern": "^(feat|feature|fix|bug|docs|documentation|refactor|chore|style|test)(?:\\(.*\\))?!?: (.+)",
+{
+      "pattern": "^(feat|feature|fix|bug|build|docs|ci|documentation|refactor|chore|style|test|dependencies)(?:\\([^)]+\\))?!?: (.+)",
       "target": "$1"
     }
   ]
