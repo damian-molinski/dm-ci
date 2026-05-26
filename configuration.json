@@ -27,7 +27,7 @@
   ],
   "sort": "ASC",
   "template": "${{CHANGELOG}}",
-  "pr_template": "- #{{TITLE}}\n   - PR: ##{{NUMBER}}",
+  "pr_template": "- ${{TITLE}}",
   "empty_template": "No significant changes.",
   "label_extractor": [
     {
