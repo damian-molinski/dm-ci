@@ -33,32 +33,3 @@ jobs:
           requireScope: true
           scopes: |
             DM-CI-\d+
-
-  test-changelog:
-    name: Test Changelog
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Test Changelog
-        run: echo "Testing changelog generation..."
-
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v6.2.2
-        with:
-          configuration: .github/changelog-configuration.json
-          mode: "COMMIT"
-          fromTag: "0.3.0"
-          toTag: "0.3.9"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Echo Configuration without Checkout Changelog
-        env:
-          CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
-        run: echo "$CHANGELOG"
