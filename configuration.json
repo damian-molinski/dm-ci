@@ -1,0 +1,38 @@
+{
+  "categories": [
+    {
+      "title": "## 🚀 Features",
+      "labels": ["feat", "feature"]
+    },
+    {
+      "title": "## 🐛 Bug Fixes",
+      "labels": ["fix", "bug"]
+    },
+    {
+      "title": "## 📝 Documentation",
+      "labels": ["docs", "documentation"]
+    },
+    {
+      "title": "## 🔧 Refactoring & Chore",
+      "labels": ["refactor", "chore", "style"]
+    },
+    {
+        "title": "## 🧪 Tests",
+        "labels": ["test"]
+    },
+    {
+        "title": "## Others",
+        "labels": []
+    }
+  ],
+  "sort": "ASC",
+  "template": "${{CHANGELOG}}",
+  "pr_template": "- ${{TITLE}}",
+  "empty_template": "No significant changes.",
+  "label_extractor": [
+    {
+      "pattern": "^(feat|feature|fix|bug|docs|documentation|refactor|chore|style|test)(?:\\(.*\\))?!?: (.+)",
+      "target": "$1"
+    }
+  ]
+}
