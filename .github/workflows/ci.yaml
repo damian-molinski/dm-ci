@@ -52,10 +52,11 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v6.2.2
         with:
           configuration: .github/changelog-configuration.json
+          mode: "COMMIT"
           # ignorePreReleases: false
           fromTag: "0.2.2"
           toTag: "0.3.9"
-          # fetchViaCommits: true
+          fetchViaCommits: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
