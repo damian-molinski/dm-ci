@@ -51,11 +51,11 @@ jobs:
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v6.2.2
         env:
-          mode: "HYBRID"
+          mode: "COMMIT"
           configuration: ".github/changelog-configuration.json"
           ignorePreReleases: "false"
-          toTag: "0.3.9"
-          fromTag: "0.2.2"
+          toTag: "0.2.2"
+          fromTag: "0.3.9"
 
       - name: Debug Print Changelog
         run: |
