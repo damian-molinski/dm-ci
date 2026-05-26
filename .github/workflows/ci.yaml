@@ -49,10 +49,11 @@ jobs:
 
       - name: Build Changelog
         id: github_release
-        uses: mikepenz/release-changelog-builder-action@v6
+        uses: mikepenz/release-changelog-builder-action@v6.2.2
         env:
           mode: "HYBRID"
           configuration: ".github/changelog-configuration.json"
+          ignorePreReleases: "false"
           toTag: "0.3.9"
           fromTag: "0.2.2"
 
