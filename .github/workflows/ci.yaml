@@ -60,7 +60,7 @@ jobs:
         with:
           toTag: "989f0dbdb445e03e83a8e7aeb0faa6ec83621504"
           fromTag: "241504386993cbed77068ece0844450200f7141f"
-          mode: "COMMIT"
+          mode: "HYBRID"
           # configuration: .github/changelog-configuration.json
           # Match optional release candidate tags (e.g., 1.2.3-rc1)
           configurationJson: |
@@ -126,20 +126,20 @@ jobs:
                 "empty_template":"No significant changes.",
                 "label_extractor":[
                     {
-                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?: ([\\w ])+([\\s\\S]*)",
                       "target":"$1"
                     },
                     {
-                      "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+                      "pattern":"^\\w+(?:\\([^)]+\\))?!: ([\\w ])+([\\s\\S]*)",
                       "target":"breaking"
                     },
                     {
-                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?: ([\\w ])+([\\s\\S]*)",
                       "target":"$1",
                       "on_property":"title"
                     },
                     {
-                      "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+                      "pattern":"^\\w+(?:\\([^)]+\\))?!: ([\\w ])+([\\s\\S]*)",
                       "target":"breaking",
                       "on_property":"title"
                     }
