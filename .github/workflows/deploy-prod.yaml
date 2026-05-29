@@ -65,6 +65,12 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug Outputs
+        run: |
+          echo "Computed Build Name: ${{ github.ref_name }}"
+          echo "Computed Build Number: ${{ github.run_number }}"
+          echo "Generated Changelog: ${{ steps.build_changelog.outputs.changelog }}"
           
   deploy:
     name: Deploy to Prod
