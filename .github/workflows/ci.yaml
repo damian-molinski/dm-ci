@@ -118,20 +118,19 @@ jobs:
                           "build",
                           "ci"
                       ]
+                    },
+                    {
+                      "title":"## 💬 Other",
+                      "labels":[
+
+                      ]
                     }
                 ],
                 "sort":"ASC",
                 "template":"#{{CHANGELOG}}",
+                "pr_template":  "PR: ##{{NUMBER}} by  #{{AUTHOR}}",
                 "empty_template":"No significant changes.",
                 "label_extractor":[
-                    {
-                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?: ([\\w ])+([\\s\\S]*)",
-                      "target":"$1"
-                    },
-                    {
-                      "pattern":"^\\w+(?:\\([^)]+\\))?!: ([\\w ])+([\\s\\S]*)",
-                      "target":"breaking"
-                    },
                     {
                       "pattern":"^(\\w+)(?:\\([^)]+\\))?!?: ([\\w ])+([\\s\\S]*)",
                       "target":"$1",
