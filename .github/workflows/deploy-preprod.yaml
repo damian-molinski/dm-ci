@@ -87,7 +87,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.version-and-changelog.outputs.build-name }}
-          name: Release Candidate ${{ needs.version-and-changelog.outputs.build-name }}
+          name: ${{ needs.version-and-changelog.outputs.build-name }}
           body: ${{ needs.version-and-changelog.outputs.changelog }}
           target_commitish: ${{ github.sha }}
           prerelease: true
