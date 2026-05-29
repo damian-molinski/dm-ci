@@ -68,7 +68,7 @@ jobs:
                     "method": "semver",
                     "filter":{
                       "pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+(?:-rc\\.[0-9]+)?\\s*$",
-                      "flags": "u"
+                      "flags": "gu"
                     }
                 }
               }
