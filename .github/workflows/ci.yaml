@@ -59,13 +59,14 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v6.2.2
         with:
           toTag: "989f0dbdb445e03e83a8e7aeb0faa6ec83621504"
+          fromTag: "241504386993cbed77068ece0844450200f7141f"
           configuration: .github/changelog-configuration.json
           # Match optional release candidate tags (e.g., 1.2.3-rc1)
           configurationJson: |
             {
               "tag_resolver":{
                   "filter":{
-                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-rc\\.[0-9]+)?$"                 
+                    "pattern": "^[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$"                 
                   }
               }
             }
