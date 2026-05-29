@@ -48,6 +48,11 @@ jobs:
           requireScope: true
           scopes: |
             DM-CI-\d+
+            
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Build Changelog
         id: build_changelog
