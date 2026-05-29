@@ -63,13 +63,98 @@ jobs:
           configuration: .github/changelog-configuration.json
           # Match optional release candidate tags (e.g., 1.2.3-rc1)
           configurationJson: |
-            {
-              "tag_resolver":{
-                  "filter":{
-                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-rc\\.[0-9]+)?$"                 
-                  }
+              {
+                "categories":[
+                    {
+                      "title":"## 💥 Breaking Changes",
+                      "labels":[
+                          "breaking"
+                      ]
+                    },
+                    {
+                      "title":"## 🚀 Features",
+                      "labels":[
+                          "feat",
+                          "feature"
+                      ]
+                    },
+                    {
+                      "title":"## 🐛 Bug Fixes",
+                      "labels":[
+                          "fix",
+                          "bug"
+                      ]
+                    },
+                    {
+                      "title":"## ⚡ Performance Improvements",
+                      "labels":[
+                          "perf"
+                      ]
+                    },
+                    {
+                      "title":"## ♻️ Refactoring & Code Quality",
+                      "labels":[
+                          "refactor",
+                          "style",
+                          "chore"
+                      ]
+                    },
+                    {
+                      "title":"## 📝 Documentation",
+                      "labels":[
+                          "docs",
+                          "doc"
+                      ]
+                    },
+                    {
+                      "title":"## 🧪 Tests",
+                      "labels":[
+                          "test"
+                      ]
+                    },
+                    {
+                      "title":"## ⚙️ Build System & CI/CD",
+                      "labels":[
+                          "build",
+                          "ci"
+                      ]
+                    },
+                    {
+                      "title":"## 💬 Other",
+                      "labels":[
+                          
+                      ]
+                    }
+                ],
+                "sort":"ASC",
+                "template":"#{{CHANGELOG}}",
+                "empty_template":"No significant changes.",
+                "label_extractor":[
+                    {
+                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+                      "target":"$1"
+                    },
+                    {
+                      "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+                      "target":"breaking"
+                    },
+                    {
+                      "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+                      "target":"$1",
+                      "on_property":"title"
+                    },
+                    {
+                      "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+                      "target":"breaking",
+                      "on_property":"title"
+                    }
+                ],
+                "tag_resolver":{
+                    "filter":{
+                      "pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+(-rc\\.[0-9]+)?$"
+                    }
+                }
               }
-            }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
