@@ -118,12 +118,6 @@ jobs:
                           "build",
                           "ci"
                       ]
-                    },
-                    {
-                      "title":"## 💬 Other",
-                      "labels":[
-                          
-                      ]
                     }
                 ],
                 "sort":"ASC",
