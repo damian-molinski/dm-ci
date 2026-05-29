@@ -54,15 +54,16 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v6.2.2
         with:
           configuration: .github/changelog-configuration.json
-          # Match only pure SemVer tags (e.g., 1.2.3) and exclude pre-release tags (e.g., 1.2.3-rc1)
           configurationJson: |
-            {
-              "tag_resolver":{
-                  "filter":{
-                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-                  }
+              {
+                "tag_resolver":{
+                    "method": "semver",
+                    "filter":{
+                      "pattern":"^\d+\.\d+\.\d+$",
+                      "flags": "gu"
+                    }
+                }
               }
-            }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
