@@ -2,67 +2,79 @@
    "categories":[
       {
          "title":"## 💥 Breaking Changes",
-         "labels":["breaking"]
+         "labels":[
+            "breaking"
+         ]
       },
       {
          "title":"## 🚀 Features",
-         "labels":["feat","feature"]
+         "labels":[
+            "feat",
+            "feature"
+         ]
       },
       {
          "title":"## 🐛 Bug Fixes",
-         "labels":["fix","bug"]
+         "labels":[
+            "fix",
+            "bug"
+         ]
       },
       {
          "title":"## ⚡ Performance Improvements",
-         "labels":["perf"]
+         "labels":[
+            "perf"
+         ]
       },
       {
          "title":"## ♻️ Refactoring & Code Quality",
-         "labels":["refactor","style","chore"]
+         "labels":[
+            "refactor",
+            "style",
+            "chore"
+         ]
       },
       {
          "title":"## 📝 Documentation",
-         "labels":["docs","doc"]
+         "labels":[
+            "docs",
+            "doc"
+         ]
       },
       {
-        "title": "## 🧪 Tests",
-        "labels": ["test"]
+         "title":"## 🧪 Tests",
+         "labels":[
+            "test"
+         ]
       },
       {
          "title":"## ⚙️ Build System & CI/CD",
-         "labels":["build","ci"]
+         "labels":[
+            "build",
+            "ci"
+         ]
       },
       {
          "title":"## 💬 Other",
-         "labels":[]
+         "labels":[
+            
+         ]
       }
    ],
    "sort":"ASC",
-   "template":"#{{CHANGELOG}}",
+   "template":"#{{CHANGELOG}}\n\n## CONTRIBUTORS\n\n#{{CONTRIBUTORS}}",
+   "pr_template":"- #{{TITLE}}. PR(##{{NUMBER}}) by @#{{AUTHOR}}",
    "empty_template":"No significant changes.",
    "label_extractor":[
       {
-         "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
-         "target":"$1"
-      },
-      {
-         "pattern":"^\\w+(?:\\([^)]+\\))?!:",
-         "target":"breaking"
-      },
-      {
-         "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+         "pattern":"^(\\w+)(?:\\([^)]+\\))?!?: ([\\w ])+([\\s\\S]*)",
          "target":"$1",
          "on_property":"title"
       },
       {
-         "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+         "pattern":"^\\w+(?:\\([^)]+\\))?!: ([\\w ])+([\\s\\S]*)",
          "target":"breaking",
          "on_property":"title"
       }
-   ],
-    "tag_resolver":{
-                  "filter":{
-                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-rc\\.[0-9]+)?$"                 
-                  }
-              }
+   ]
 }
