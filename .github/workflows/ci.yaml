@@ -127,7 +127,7 @@ jobs:
                     }
                 ],
                 "sort":"ASC",
-                "template":"#{{CHANGELOG}}\n\n##CONTRIBUTORS\n#{{CONTRIBUTORS}}",
+                "template":"#{{CHANGELOG}}\n\n\n## CONTRIBUTORS\n\n#{{CONTRIBUTORS}}",
                 "pr_template":  "- #{{TITLE}}. PR(##{{NUMBER}}) by @#{{AUTHOR}}",
                 "empty_template":"No significant changes.",
                 "label_extractor":[
