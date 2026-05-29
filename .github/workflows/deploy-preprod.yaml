@@ -54,7 +54,7 @@ jobs:
 
       - name: Build Changelog
         id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v6
+        uses: mikepenz/release-changelog-builder-action@v6.2.2
         with:
           toTag: ${{ github.sha }}
           configuration: .github/changelog-configuration.json
@@ -71,10 +71,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug Outputs
+        env:
+          COMPUTED_BUILD_NAME: ${{ steps.rc_calculator.outputs.build_name }}
+          GENERATED_CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
         run: |
-          echo "Computed Build Name: ${{ github.ref_name }}"
-          echo "Computed Build Number: ${{ github.run_number }}"
-          echo "Generated Changelog: ${{ steps.build_changelog.outputs.changelog }}"
+          echo "Computed Build Name: $COMPUTED_BUILD_NAME"
+          echo "Computed Build Number: $GITHUB_RUN_NUMBER"
+          echo "Generated Changelog:"
+          echo "$GENERATED_CHANGELOG"
 
   deploy:
     name: Deploy to PreProd
@@ -89,6 +93,7 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
+        if: false
         with:
           tag_name: ${{ needs.version-and-changelog.outputs.build-name }}
           name: Release Candidate ${{ needs.version-and-changelog.outputs.build-name }}

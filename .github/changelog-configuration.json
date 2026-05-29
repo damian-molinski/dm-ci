@@ -43,6 +43,14 @@
    "label_extractor":[
       {
          "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+         "target":"$1"
+      },
+      {
+         "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+         "target":"breaking"
+      },
+      {
+         "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
          "target":"$1",
          "on_property":"title"
       },
