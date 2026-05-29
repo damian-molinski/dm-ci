@@ -94,7 +94,6 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
-        if: false
         with:
           tag_name: ${{ needs.version-and-changelog.outputs.build-name }}
           name: Release Candidate ${{ needs.version-and-changelog.outputs.build-name }}
