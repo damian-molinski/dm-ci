@@ -1,42 +1,55 @@
 {
-  "categories": [
-    {
-      "title": "## 🚀 Features",
-      "labels": ["feat", "feature"]
-    },
-    {
-      "title": "## 🐛 Bug Fixes",
-      "labels": ["fix", "bug"]
-    },
-    {
-      "title": "## 📝 Documentation",
-      "labels": ["docs", "documentation"]
-    },
-    {
-      "title": "## 🔧 Refactoring & Chore",
-      "labels": ["refactor", "chore", "style"]
-    },
-    {
+   "categories":[
+      {
+         "title":"## 💥 Breaking Changes",
+         "labels":["breaking"]
+      },
+      {
+         "title":"## 🚀 Features",
+         "labels":["feat","feature"]
+      },
+      {
+         "title":"## 🐛 Bug Fixes",
+         "labels":["fix","bug"]
+      },
+      {
+         "title":"## ⚡ Performance Improvements",
+         "labels":["perf"]
+      },
+      {
+         "title":"## ♻️ Refactoring & Code Quality",
+         "labels":["refactor","style","chore"]
+      },
+      {
+         "title":"## 📝 Documentation",
+         "labels":["docs","doc"]
+      },
+      {
         "title": "## 🧪 Tests",
         "labels": ["test"]
-    },
-    {
-        "title": "## 📦 Dependencies",
-        "labels": ["dependencies"]
-    },
-    {
-        "title": "## 💬 Other",
-        "labels": []
-    }
-  ],
-  "sort": "ASC",
-  "template": "#{{CHANGELOG}}",
-  "pr_template": "- #{{TITLE}}\n   - PR: ##{{NUMBER}}",
-  "empty_template": "No significant changes.",
-  "label_extractor": [
-{
-      "pattern": "^(feat|feature|fix|bug|build|docs|ci|documentation|refactor|chore|style|test|dependencies)(?:\\([^)]+\\))?!?: (.+)",
-      "target": "$1"
-    }
-  ]
+      },
+      {
+         "title":"## ⚙️ Build System & CI/CD",
+         "labels":["build","ci"]
+      },
+      {
+         "title":"## 💬 Other",
+         "labels":[]
+      }
+   ],
+   "sort":"ASC",
+   "template":"#{{CHANGELOG}}",
+   "empty_template":"No significant changes.",
+   "label_extractor":[
+      {
+         "pattern":"^(\\w+)(?:\\([^)]+\\))?!?:",
+         "target":"$1",
+         "on_property":"title"
+      },
+      {
+         "pattern":"^\\w+(?:\\([^)]+\\))?!:",
+         "target":"breaking",
+         "on_property":"title"
+      }
+   ]
 }
