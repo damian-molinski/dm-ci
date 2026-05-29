@@ -58,16 +58,7 @@ jobs:
         with:
           toTag: ${{ github.sha }}
           configuration: .github/changelog-configuration.json
-          configurationJson: |
-              {
-                "tag_resolver":{
-                    "method": "semver",
-                    "filter":{
-                      "pattern":"^\d+\.\d+\.\d+(-rc\.\d+)?$",
-                      "flags": "gu"
-                    }
-                }
-              }
+          ignorePreReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

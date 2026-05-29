@@ -54,16 +54,7 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v6.2.2
         with:
           configuration: .github/changelog-configuration.json
-          configurationJson: |
-              {
-                "tag_resolver":{
-                    "method": "semver",
-                    "filter":{
-                      "pattern":"^\d+\.\d+\.\d+$",
-                      "flags": "gu"
-                    }
-                }
-              }
+          ignorePreReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
