@@ -6,7 +6,8 @@ on:
       - release/[0-9]*.[0-9]*.[0-9]*
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -74,7 +75,7 @@ jobs:
           echo "Computed Build Name: ${{ github.ref_name }}"
           echo "Computed Build Number: ${{ github.run_number }}"
           echo "Generated Changelog: ${{ steps.build_changelog.outputs.changelog }}"
-          
+
   deploy:
     name: Deploy to PreProd
     needs: version-and-changelog
